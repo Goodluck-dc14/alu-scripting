@@ -1,8 +1,2 @@
 #!/usr/bin/env ruby
-
-regex = /[A-Z]/
-
-ARGV.each do |arg|
-  matches = arg.scan(regex)
-  puts matches.join if matches.any?
-end
+puts ARGV[0].scan(/[A-Z]/).join
