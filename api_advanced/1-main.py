@@ -1,12 +1,18 @@
 #!/usr/bin/python3
-"""
-1-main
-"""
-import sys
+"""Module for task 1"""
 
-if __name__ == '__main__':
-    top_ten = __import__('1-top_ten').top_ten
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
+
+def top_ten(subreddit):
+    """Queries the Reddit API and returns the top 10 hot posts
+    of the subreddit"""
+    import requests
+
+    sub_info = requests.get("https://www.reddit.com/r/{}/hot.json?limit=10"
+                            .format(subreddit),
+                            headers={"User-Agent": "My-User-Agent"},
+                            allow_redirects=False)
+    if sub_info.status_code >= 300:
+        print('None')
     else:
-        top_ten(sys.argv[1])
+        [print(child.get("data").get("title"))
+         for child in sub_info.json().get("data").get("children")]
